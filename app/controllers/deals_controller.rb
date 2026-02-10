@@ -121,7 +121,7 @@ class DealsController < ApplicationController
     params.require(:deal).permit(:title, :deal_type, :status, :purchase_price, 
                                  :loan_amount, :contact_id, :loan_officer_id,
                                  :estimated_close_date, :notes)
-  end
+  ends
 
   def policy_scope(scope)
     if current_user.admin?
