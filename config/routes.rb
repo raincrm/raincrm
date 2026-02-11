@@ -1,31 +1,53 @@
+# Add these routes to your config/routes.rb
+
 Rails.application.routes.draw do
-  devise_for :users
-  
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  root "dashboard#index"
-
-  resources :deals do
-    collection do
-      get :kanban
-    end
-    resources :messages, only: [:index, :create, :show]
-    resources :documents, only: [:index, :show, :create, :destroy]
-    member do
-      patch :update_status
-    end
-  end
-
-  resources :contacts
-  resources :dashboard, only: [:index]
-  
-  # Demo route for Figma integration
-  get 'figma-demo', to: 'dashboard#figma_demo', as: 'figma_demo'
-
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+
+  # Defines the root path route ("/")
+  root "dashboard#index"
+
+  # Dashboard
+  get "dashboard", to: "dashboard#index"
+  
+  # Notifications
+  get "notifications", to: "notifications#index"
+  
+  # Tasks
+  get "tasks", to: "tasks#index"
+  resources :tasks, except: [:index]
+  
+  # Calendars
+  get "calendars", to: "calendars#index"
+  
+  # Analytics
+  get "analytics", to: "analytics#index"
+  
+  # Contacts
+  resources :contacts
+  
+  # Companies
+  resources :companies
+  
+  # Deals
+  resources :deals
+  
+  # Integrations
+  get "integrations", to: "integrations#index"
+  
+  # Settings
+  get "settings", to: "settings#index"
+  
+  # Kanban
+  get "kanban", to: "kanban#index"
+  
+  # Figma Demo (temporary)
+  get "figma_demo", to: "figma#demo"
+  
+  # Devise routes (authentication)
+  devise_for :users
 end
